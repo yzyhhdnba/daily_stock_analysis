@@ -44,6 +44,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - [新功能] 集成 Anspire Search 作为可选语义搜索后端; 配置 `ANSPIRE_*` 可使用Anspire Search获取实时行情及新闻资讯，未配置时行为与此前一致。Anspire Search请使用 `tests/test_anspire_search.py`（手动脚本）。
 - [修复] GitHub Actions `daily_analysis.yml` 未注入 `REPORT_LANGUAGE` 环境变量，导致用户在 Secrets/Variables 中配置后不生效（fixes #1013）
 - [修复] `GET /api/v1/analysis/status/{task_id}` 从数据库回填已完成任务时缺少 `current_price` / `change_pct`，导致首页报告股票名旁不显示实时价格（fixes #983）
+- [新功能] 新增内置策略 skill `tonghuashun_style`（同花顺风格策略），支持趋势、量价、热点和新闻催化的多因子共振分析。
+- [改进] GitHub Actions `daily_analysis.yml` 新增 `AGENT_MODE`、`AGENT_SKILLS`、`AGENT_SKILL_DIR`、`AGENT_SKILL_ROUTING` 环境变量映射，支持在 Secrets/Variables 中直接启用与切换 Agent 策略 skill。
 
 ## [3.12.0] - 2026-04-01
 

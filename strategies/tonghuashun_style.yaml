@@ -1,0 +1,58 @@
+# Tonghuashun Style Strategy / 同花顺风格策略
+# Multi-factor rhythm focused on trend, volume-price, hotspot, and event confirmation.
+
+name: tonghuashun_style
+display_name: 同花顺风格策略
+description: 参考同花顺常见盯盘口径，结合均线、量价、热点与新闻催化进行多因子共振判断。
+category: framework
+core_rules: [1, 2, 3, 6]
+required_tools:
+  - get_daily_history
+  - analyze_trend
+  - get_realtime_quote
+  - search_stock_news
+aliases: [同花顺, THS, 同花顺风格]
+default_active: false
+default_router: false
+default_priority: 120
+market_regimes: [trending_up, high_volatility]
+
+instructions: |
+  **同花顺风格策略（Tonghuashun Style Strategy）**
+
+  目标：
+  - 用“趋势方向 + 量价节奏 + 题材热度 + 事件催化”四层共振筛选机会。
+  - 不做单一指标判断，强调信号一致性和失效条件。
+
+  分析步骤：
+
+  1. **趋势方向先行**
+     - 使用 `analyze_trend` 判断 MA5/MA10/MA20 的结构与斜率。
+     - MA5 >= MA10 >= MA20 且 MA20 走平向上，视为可参与区间。
+     - 若价格跌破 MA20 且无法快速收回，降低交易优先级。
+
+  2. **量价节奏确认**
+     - 使用 `get_daily_history` 观察近 20 个交易日：
+       - 上涨阶段是否伴随放量；
+       - 回踩阶段是否缩量；
+       - 是否出现放量滞涨或放量长上影。
+     - 若出现“放量突破后连续缩量回踩不破关键均线”，可提高看多评分。
+
+  3. **盘中强弱验证**
+     - 使用 `get_realtime_quote` 评估量比与换手：
+       - 量比 > 1.2 且换手率处于合理区间，视为资金参与度较好；
+       - 量比过高但价格滞涨时，警惕冲高回落风险。
+
+  4. **事件与新闻过滤**
+     - 使用 `search_stock_news` 检查是否存在关键催化或明确利空。
+     - 若出现监管、财务、业绩暴雷类重大负面，执行风险降级。
+
+  输出要求：
+  - 明确给出：`买入/观望/减仓` 倾向、触发条件、失效条件。
+  - 必须给出止损参考（如 MA20 下方或最近结构低点）。
+  - 若信号冲突，优先保护资金，给出“等待信号统一”的建议。
+
+  评分调整建议：
+  - 趋势与量价共振：`sentiment_score +10`
+  - 回踩关键均线后再放量上攻：`sentiment_score +8`
+  - 出现放量滞涨或高位利空：`sentiment_score -12`

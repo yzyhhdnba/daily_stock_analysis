@@ -186,6 +186,14 @@ jobs:
           MARKET_REVIEW_ENABLED: ${{ vars.MARKET_REVIEW_ENABLED || secrets.MARKET_REVIEW_ENABLED || 'true' }}
           ANALYSIS_DELAY: ${{ vars.ANALYSIS_DELAY || secrets.ANALYSIS_DELAY || '0' }}
           TRADING_DAY_CHECK_ENABLED: ${{ vars.TRADING_DAY_CHECK_ENABLED || secrets.TRADING_DAY_CHECK_ENABLED || 'true' }}
+
+          # ==========================================
+          # Agent 策略 Skill 配置
+          # ==========================================
+          AGENT_MODE: ${{ vars.AGENT_MODE || secrets.AGENT_MODE || 'false' }}
+          AGENT_SKILLS: ${{ vars.AGENT_SKILLS || secrets.AGENT_SKILLS || '' }}
+          AGENT_SKILL_DIR: ${{ vars.AGENT_SKILL_DIR || secrets.AGENT_SKILL_DIR || '' }}
+          AGENT_SKILL_ROUTING: ${{ vars.AGENT_SKILL_ROUTING || secrets.AGENT_SKILL_ROUTING || 'auto' }}
           
           # ==========================================
           # 系统配置
